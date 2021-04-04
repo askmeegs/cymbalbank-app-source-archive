@@ -1,6 +1,6 @@
 # TODO - break into separate steps? 
 steps: 
-- name: 'gcr.io/krm-test-3/skaffold-mvn:latest'
+- name: 'gcr.io/google-samples/intro-to-krm/skaffold-mvn:latest'
   id: Deploy to Staging Cluster 
   entrypoint: /bin/sh
   args:
