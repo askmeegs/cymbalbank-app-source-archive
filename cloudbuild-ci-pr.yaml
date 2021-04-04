@@ -5,7 +5,7 @@ steps:
   args:
   - '-c'
   - |
-    gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${CLUSTER_ZONE} --project ${PROJECT_ID} 
+    gcloud container clusters get-credentials ${_CLUSTER_NAME} --zone ${_CLUSTER_ZONE} --project ${PROJECT_ID} 
     skaffold run --default-repo="gcr.io/${PROJECT_ID}/cymbal-bank/${BRANCH_NAME}" --tail=false
     kubectl wait --for=condition=available --timeout=300s deployment/frontend -n fronted 
     kubectl wait --for=condition=available --timeout=300s deployment/contacts -n contacts 
@@ -14,6 +14,6 @@ steps:
     kubectl wait --for=condition=available --timeout=300s deployment/transactionhistory -n transactionhistory 
     kubectl wait --for=condition=available --timeout=300s deployment/balancereader -n balancereader 
     kubectl wait --for=condition=available --timeout=300s deployment/loadgenerator -n loadgenerator
-  env:
-  - 'CLUSTER_NAME=cymbal-staging'
-  - 'CLUSTER_ZONE=us-central1-a'
+  substitutions:
+  - '_CLUSTER_NAME=cymbal-staging'
+  - '_CLUSTER_ZONE=us-central1-a'
