@@ -15,5 +15,5 @@ steps:
     kubectl wait --for=condition=available --timeout=300s deployment/balancereader -n balancereader 
     kubectl wait --for=condition=available --timeout=300s deployment/loadgenerator -n loadgenerator
 substitutions:
-- '_CLUSTER_NAME=cymbal-staging'
-- '_CLUSTER_ZONE=us-central1-a'
+  _CLUSTER_NAME: 'cymbal-staging'
+  _CLUSTER_ZONE: 'us-central1-a'
