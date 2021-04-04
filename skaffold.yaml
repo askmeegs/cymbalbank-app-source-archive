@@ -14,7 +14,6 @@
 apiVersion: skaffold/v2alpha4
 kind: Config
 build:
-  concurrency: 4
   artifacts:
   - image: frontend
     context: src/frontend
@@ -35,6 +34,10 @@ build:
     context: src/loadgenerator
   tagPolicy:
     gitCommit: {}
+  local: 
+    concurrency: 4 
+  googleCloudBuild:
+    concurrency: 4 
 deploy:
   statusCheckDeadlineSeconds: 300
   kustomize: {}
