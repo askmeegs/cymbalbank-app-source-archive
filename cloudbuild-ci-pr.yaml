@@ -1,6 +1,6 @@
 # TODO - break into separate steps? 
 steps: 
-- name: 'gcr.io/k8s-skaffold/skaffold:latest'
+- name: 'gcr.io/k8s-skaffold/skaffold-jib:v0.21'
   id: Deploy to Staging Cluster 
   entrypoint: /bin/sh
   args:
