@@ -23,7 +23,7 @@ steps:
 
     for f in manifests/; do 
         SERVICE_NAME="`basename $f .yaml`"
-        SUBST="image: gcr.io/${PROJECT_ID}/cymbal-bank/release/${SERVICE_NAME}:${SHORT_SHA}"
+        SUBST="image: gcr.io/${PROJECT_ID}/cymbal-bank/release/$SERVICE_NAME:${SHORT_SHA}"
         echo "Injecting image tag: $SUBST > $f"  
         sed -i "s|image:*$SERVICE_NAME|$SUBST|g" $f 
         cat $f 
