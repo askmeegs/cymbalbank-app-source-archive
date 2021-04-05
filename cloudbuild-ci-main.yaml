@@ -14,7 +14,6 @@ steps:
    - 'pipefail'
    - '-c'
    - |-
-    set -x 
     git clone https://github.com/$$GITHUB_USERNAME/cymbalbank-app-config && \
     cd cymbalbank-app-config && \
     git checkout main 
@@ -24,13 +23,14 @@ steps:
     git remote set-url origin https://$$GITHUB_USERNAME:$$GITHUB_TOKEN@github.com/$$GITHUB_USERNAME/cymbalbank-app-config.git
 
     for f in base/*; do 
+        if [[ "$f" == 'base/kustomization.yaml' ]]; then
+          continue
+        fi
         export _SERVICE_NAME="`basename $f .yaml`"
         echo "🏦 Service name: ${_SERVICE_NAME}"
         export _SUBST="image: gcr.io/${PROJECT_ID}/cymbal-bank/release/${_SERVICE_NAME}:${SHORT_SHA}"
         echo "🐳 Injecting image tag: $_SUBST > $f"  
         sed -i "s|image: $_SERVICE_NAME|$_SUBST|g" $f 
-        echo "✅ File output, $f:"
-        cat $f | grep image:
     done 
 
     git add . && \
