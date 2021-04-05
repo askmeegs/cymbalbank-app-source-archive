@@ -31,8 +31,8 @@ portForward:
   resourceName: frontend
   namespace: frontend
   port: 8080
-  address: 0.0.0.0
-  localPort: 8080
+  address: 127.0.0.1
+  localPort: 80
 profiles:
   - name: dev
     deploy: 
