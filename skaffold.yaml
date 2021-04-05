@@ -26,6 +26,13 @@ build:
 deploy:
   statusCheckDeadlineSeconds: 300
   kustomize: {}
+portForward:
+- resourceType: deployment
+  resourceName: frontend
+  namespace: frontend
+  port: 8080
+  address: 0.0.0.0
+  localPort: 8080
 profiles:
   - name: dev
     deploy: 
