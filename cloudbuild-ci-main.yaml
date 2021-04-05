@@ -22,10 +22,11 @@ steps:
     git remote set-url origin https://$$GITHUB_USERNAME:$$GITHUB_TOKEN@github.com/$$GITHUB_USERNAME/cymbalbank-app-config.git
 
     for f in manifests/; do 
-        SERVICE_NAME="`basename $f .yaml`"
-        SUBST="image: gcr.io/${PROJECT_ID}/cymbal-bank/release/$SERVICE_NAME:${SHORT_SHA}"
+        _SERVICE_NAME="`basename $f .yaml`"
+        echo "Service name: ${_SERVICE_NAME}"
+        SUBST="image: gcr.io/${PROJECT_ID}/cymbal-bank/release/${_SERVICE_NAME}:${SHORT_SHA}"
         echo "Injecting image tag: $SUBST > $f"  
-        sed -i "s|image:*$SERVICE_NAME|$SUBST|g" $f 
+        sed -i "s|image:*$_SERVICE_NAME|$SUBST|g" $f 
         cat $f 
     done 
 
@@ -34,6 +35,8 @@ steps:
     Built from commit ${COMMIT_SHA} of repository cymbalbank-app-source - main branch 
     Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
     git push origin main
+substitutions:
+    _SERVICE_NAME: "test"
 availableSecrets:
   secretManager:
   - versionName: projects/${PROJECT_ID}/secrets/github-username/versions/1 
