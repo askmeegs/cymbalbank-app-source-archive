@@ -1,11 +1,11 @@
 steps: 
-- name: 'gcr.io/google-samples/intro-to-krm/skaffold-mvn:latest'
-  id: Build production images 
-  entrypoint: /bin/sh
-  args:
-  - '-c'
-  - |
-    skaffold build --profile prod --default-repo="gcr.io/${PROJECT_ID}/cymbal-bank/release" --tag ${SHORT_SHA}
+# - name: 'gcr.io/google-samples/intro-to-krm/skaffold-mvn:latest'
+#   id: Build production images 
+#   entrypoint: /bin/sh
+#   args:
+#   - '-c'
+#   - |
+#     skaffold build --profile prod --default-repo="gcr.io/${PROJECT_ID}/cymbal-bank/release" --tag ${SHORT_SHA}
 - name: 'gcr.io/cloud-builders/gcloud'
   id: Image tags -> cymbalbank-app-config manifests 
   entrypoint: /bin/sh
@@ -21,12 +21,13 @@ steps:
     git config user.name $$GITHUB_USERNAME 
     git remote set-url origin https://$$GITHUB_USERNAME:$$GITHUB_TOKEN@github.com/$$GITHUB_USERNAME/cymbalbank-app-config.git
 
-    for f in manifests/; do 
+    for f in base/; do 
         _SERVICE_NAME="`basename $f .yaml`"
-        echo "Service name: ${_SERVICE_NAME}"
+        echo "🏦 Service name: ${_SERVICE_NAME}"
         _SUBST="image: gcr.io/${PROJECT_ID}/cymbal-bank/release/${_SERVICE_NAME}:${SHORT_SHA}"
-        echo "Injecting image tag: $_SUBST > $f"  
+        echo "🐳 Injecting image tag: $_SUBST > $f"  
         sed -i "s|image:*$_SERVICE_NAME|$_SUBST|g" $f 
+        echo "📝 Updated $f:"
         cat $f 
     done 
 
