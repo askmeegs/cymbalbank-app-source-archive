@@ -35,6 +35,7 @@ steps:
     Built from commit ${COMMIT_SHA} of repository cymbalbank-app-source - main branch 
     Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
     git push origin main
+  secretEnv: ['GITHUB_EMAIL', 'GITHUB_USERNAME', 'GITHUB_TOKEN']
 # these vars are set inline in the script, but defined here to avoid Cloud Build errs  
 substitutions:
     _SERVICE_NAME: "test"
