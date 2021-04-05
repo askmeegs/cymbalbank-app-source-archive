@@ -24,9 +24,9 @@ steps:
     for f in manifests/; do 
         _SERVICE_NAME="`basename $f .yaml`"
         echo "Service name: ${_SERVICE_NAME}"
-        SUBST="image: gcr.io/${PROJECT_ID}/cymbal-bank/release/${_SERVICE_NAME}:${SHORT_SHA}"
-        echo "Injecting image tag: $SUBST > $f"  
-        sed -i "s|image:*$_SERVICE_NAME|$SUBST|g" $f 
+        _SUBST="image: gcr.io/${PROJECT_ID}/cymbal-bank/release/${_SERVICE_NAME}:${SHORT_SHA}"
+        echo "Injecting image tag: $_SUBST > $f"  
+        sed -i "s|image:*$_SERVICE_NAME|$_SUBST|g" $f 
         cat $f 
     done 
 
@@ -35,8 +35,10 @@ steps:
     Built from commit ${COMMIT_SHA} of repository cymbalbank-app-source - main branch 
     Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
     git push origin main
+# these vars are set inline in the script, but defined here to avoid Cloud Build errs  
 substitutions:
     _SERVICE_NAME: "test"
+    _SUBST: "test"
 availableSecrets:
   secretManager:
   - versionName: projects/${PROJECT_ID}/secrets/github-username/versions/1 
