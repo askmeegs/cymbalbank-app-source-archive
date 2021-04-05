@@ -15,8 +15,7 @@ steps:
    - '-c'
    - |-
     git clone https://github.com/$$GITHUB_USERNAME/cymbalbank-app-config && \
-    cd cymbalbank-app-config && \
-    git checkout main 
+    cd cymbalbank-app-config 
     
     git config user.email $$GITHUB_EMAIL
     git config user.name $$GITHUB_USERNAME 
@@ -29,7 +28,7 @@ steps:
         svc="`basename $f .yaml`"
         echo "🏦 Service name: $svc"
         subst="image: gcr.io/${PROJECT_ID}/cymbal-bank/release/$svc:${SHORT_SHA}"
-        
+
         echo "🐳 Injecting image tag: $subst > $f"  
         sed -i "s|image: $svc|$subst|g" $f 
         
